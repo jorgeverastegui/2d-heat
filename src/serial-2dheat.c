@@ -47,7 +47,7 @@
   2 - gauss-seidel
   3 - sor
 */
-#define _METHOD 2 
+#define _METHOD 1 
 #define ITERMAX 10    
 #define T_SRC0  550.0 
 #define ROOT    0
@@ -267,6 +267,13 @@ int main(int argc, char** argv) {
     time = 1000000*(tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec) + tv.tv_usec - time; 
     if (0 < verbose)
     {   printf("Estimated time to convergence in %d iterations using %d processors on a %dx%d grid is %d microseconds\n",k,p,(int)floor(WIDTH/H),(int)floor(HEIGHT/H),time);
+	for (j=my_start_row;j<=my_end_row;j++) {
+ 		for (i=0;i<(int)floor(WIDTH/H);i++) {	
+		printf("T(%d,%d)= %f\n",j-my_start_row,i, U_Curr[j-my_start_row][i]);
+                fflush(stdout);
+		}
+	}
+
     } 
     else if (show_time)  
     {   printf("%f\n",time); }
@@ -584,8 +591,8 @@ int main(int argc, char** argv) {
          ret_val = 0.0;
        } else { 
          ret_val = above_ptr[i];
-	 /*printf("%d: Used ghost (%d,%d) row from above = %f\n",rank,i,j,above_ptr[i]);
-	 fflush(stdout);*/
+	 printf("%d: Used ghost (%d,%d) row from above = %f\n",rank,i,j,above_ptr[i]);
+	 fflush(stdout);
        }
      } else if (j > get_end(rank)) {
        if (rank == (p-1)) {
@@ -593,8 +600,8 @@ int main(int argc, char** argv) {
          ret_val = 0.0;
        } else { 
          ret_val = below_ptr[i];
-	 /*printf("%d: Used ghost (%d,%d) row from below = %f\n",rank,i,j,below_ptr[i]);
-	 fflush(stdout);*/
+	 printf("%d: Used ghost (%d,%d) row from below = %f\n",rank,i,j,below_ptr[i]);
+	 fflush(stdout);
        }     
      } else {
        /* else, return the value in the domain asked for */

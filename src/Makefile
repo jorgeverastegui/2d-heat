@@ -1,6 +1,6 @@
 CFLAGS += -lm -pg
 MPICC = mpicc
-OMP = -mp
+OMP = -fopenmp
 
 all: serial openmp mpi
 

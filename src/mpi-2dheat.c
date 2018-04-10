@@ -241,7 +241,13 @@ int main(int argc, char** argv) {
   if (my_rank == ROOT) {
     time = MPI_Wtime() - time;
     if (0 < verbose)
-    {   printf("Estimated time to convergence in %d iterations using %d processors on a %dx%d grid is %f seconds\n",k,p,(int)floor(WIDTH/H),(int)floor(HEIGHT/H),time);
+    { printf("Estimated time to convergence in %d iterations using %d processors on a %dx%d grid is %f seconds\n",k,p,(int)floor(WIDTH/H),(int)floor(HEIGHT/H),time);
+        for (j=my_start_row;j<=my_end_row;j++) {
+                for (i=0;i<(int)floor(WIDTH/H);i++) {
+                printf("T(%d,%d)= %f\n",j-my_start_row,i, U_Curr[j-my_start_row][i]);
+                fflush(stdout);
+                }
+        }
     } 
     else if (show_time)  
     {   printf("%f\n",time); }
